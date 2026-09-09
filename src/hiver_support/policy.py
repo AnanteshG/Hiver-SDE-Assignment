@@ -34,7 +34,7 @@ def gates(example, intent, evidence, reply, supported, threshold=0.3):
         failures.append('intent_unclear')
     if example.get('context_incomplete') or len(text.split()) < 5:
         failures.append('context_insufficient')
-    if intent in {'account_access', 'billing_purchase', 'hardware_repair'}:
+    if intent in {'account_access', 'billing_purchase', 'hardware_repair'} or re.search(r'\brefund|\bcharged\b|\bbilling\b|\bpassword\b|\bwarranty\b|\bcancel.{0,25}subscription', text):
         failures.append('account_or_specialist_required')
     if re.search(r'smoke|fire|burn(?:ing|t)|swoll|injur|stolen|hacked|fraud|suicid', text):
         failures.append('sensitive_or_safety_issue')

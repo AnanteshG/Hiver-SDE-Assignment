@@ -39,7 +39,9 @@ def acceptable(rating):
 
 
 def make_review_packet(examples, predictions, corpus, n=40, seed=73, pool='representative'):
-    lookup = {e['id']: e for e in examples if pool=='all' or e.get('partition') == 'representative' or (pool=='heldout' and e.get('partition')=='challenge')}
+    lookup = {e['id']: e for e in examples
+              if (not e.get('annotation') or e['annotation'].get('eligible',True))
+              and (pool=='all' or e.get('partition') == 'representative' or (pool=='heldout' and e.get('partition')=='challenge'))}
     # Choose inputs before reading scores; include all available systems for each.
     ids = sorted(lookup)
     random.Random(seed).shuffle(ids)

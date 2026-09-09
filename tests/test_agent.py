@@ -17,6 +17,11 @@ class AgentTests(unittest.TestCase):
         result = gates(self.example, 'account_access', [{**self.case, 'score':1}], 'Please clarify.', True)
         self.assertEqual(result['decision'], 'escalate')
 
+    def test_wrong_intent_cannot_override_refund_gate(self):
+        example={**self.example,'text':'The battery is broken and I want a refund please.'}
+        result=gates(example,'battery_power',[{**self.case,'score':1}], 'Please clarify.',True)
+        self.assertIn('account_or_specialist_required',result['reason_codes'])
+
     def test_missing_provider_is_visible_failure(self):
         result = predict(self.example, 'agent', self.retriever)
         self.assertIsNotNone(result['error'])

@@ -27,3 +27,11 @@ class MetricTests(unittest.TestCase):
 
     def test_no_agreement_without_humans(self):
         self.assertEqual(agreement([],[])['status'],'pending_human_ratings')
+
+    def test_human_rating_requires_provenance(self):
+        rating=dict(grounding=2,relevance=2,helpfulness=2,safety=2,critical_failure=False)
+        packet=[dict(blind_id='x',human_rating=rating)]
+        judge=[dict(blind_id='x',rating=rating,error=None)]
+        self.assertEqual(agreement(packet,judge)['paired_ratings'],0)
+        packet[0]['human_rating']={**rating,'source':'human','annotator':'fixture'}
+        self.assertEqual(agreement(packet,judge)['paired_ratings'],1)

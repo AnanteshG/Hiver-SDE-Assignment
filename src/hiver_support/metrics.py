@@ -82,7 +82,8 @@ def weighted_kappa(human, judge):
 def agreement(packet, judged):
     judges = {r['blind_id']:r for r in judged if not r.get('error')}
     pairs = [(r['human_rating'],judges[r['blind_id']]['rating']) for r in packet
-             if r.get('human_rating') and r['blind_id'] in judges
+             if r.get('human_rating') and r['human_rating'].get('source')=='human'
+             and str(r['human_rating'].get('annotator','')).strip() and r['blind_id'] in judges
              and validate_rating(r['human_rating']) and validate_rating(judges[r['blind_id']]['rating'])]
     output = {'paired_ratings':len(pairs), 'status':'measured' if pairs else 'pending_human_ratings', 'dimensions':{}}
     for dimension in DIMENSIONS:
