@@ -18,7 +18,7 @@ def main():
     p = commands.add_parser('prepare', help='Rebuild real-data retrieval corpus and annotation candidates')
     p.add_argument('csv'); p.add_argument('--brand',default='AppleSupport'); p.add_argument('--output',default='data/processed')
     p.add_argument('--seed',type=int,default=42); p.add_argument('--max-corpus',type=int,default=5000)
-    for name in ['validate','run','evaluate','review-packet','stress']:
+    for name in ['validate','run','evaluate','review-packet','stress','readiness']:
         p = commands.add_parser(name)
         p.add_argument('--data',default='data/processed')
         p.add_argument('--output',default='artifacts')
@@ -29,6 +29,8 @@ def main():
             p.add_argument('--workers',type=int,default=4)
         if name == 'review-packet':
             p.add_argument('--count',type=int,default=40)
+            p.add_argument('--pool',choices=['representative','heldout','all'],default='representative')
+            p.add_argument('--name',choices=['review','judge'],default='review')
     p = commands.add_parser('judge'); p.add_argument('--packet',default='artifacts/review_packet.jsonl'); p.add_argument('--output',default='artifacts/judge_scores.jsonl')
     p = commands.add_parser('agreement'); p.add_argument('--packet',default='artifacts/review_packet.jsonl'); p.add_argument('--judge',default='artifacts/judge_scores.jsonl'); p.add_argument('--output',default='artifacts/agreement.json')
     commands.add_parser('doctor')
@@ -68,14 +70,18 @@ def execute(args):
         result = agreement(read_jsonl(args.packet),read_jsonl(args.judge))
         write_json(args.output,result); print(json.dumps(result,indent=2)); return 0
     data, output = Path(args.data), Path(args.output)
+    if args.command=='readiness':
+        from .readiness import status
+        print(json.dumps(status(data,output),indent=2)); return 0
     examples, corpus = read_jsonl(data/'candidates.jsonl'), read_jsonl(data/'corpus.jsonl')
     errors = validate_splits(corpus,examples)
     if errors:
         raise ValueError('Split validation failed: '+ '; '.join(errors[:10]))
     if args.command == 'validate':
         annotated = sum(not validate_annotation(e.get('annotation')) for e in examples)
+        eligible = sum(not validate_annotation(e.get('annotation')) and e['annotation']['eligible'] for e in examples)
         result = {'split_errors':errors, 'examples':len(examples), 'valid_human_annotations':annotated,
-                  'submission_ready':annotated==len(examples) and 150<=annotated<=250}
+                  'eligible_human_annotations':eligible, 'annotation_complete':annotated==len(examples) and 150<=eligible<=250}
         print(json.dumps(result,indent=2)); return 0
     if args.command in ['run','stress']:
         from concurrent.futures import ThreadPoolExecutor
@@ -99,6 +105,7 @@ def execute(args):
         stem = 'stress' if args.command=='stress' else 'predictions'
         write_jsonl(output/(stem+'.jsonl'),predictions)
         manifest = {'corpus_hash':fingerprint(corpus),'examples_hash':fingerprint(examples),
+            'input_hash':fingerprint([{k:v for k,v in e.items() if k!='annotation'} for e in examples]),
             'systems':args.systems,'threshold':args.threshold,'partition':args.partition,'modes':modes,
             'wall_seconds':time.perf_counter()-start,'majority_intent':majority,
             'majority_from_human_development':any(e.get('annotation') and e['partition']=='development' for e in examples),
@@ -114,14 +121,22 @@ def execute(args):
         return int(manifest['errors']>0)
     predictions = read_jsonl(output/'predictions.jsonl')
     if args.command=='evaluate':
+        manifest_path=output/'predictions_manifest.json'
+        if manifest_path.exists():
+            manifest=json.loads(manifest_path.read_text())
+            if manifest['corpus_hash']!=fingerprint(corpus) or manifest.get('input_hash')!=fingerprint([{k:v for k,v in e.items() if k!='annotation'} for e in examples]):
+                raise ValueError('Data changed since prediction; rerun inference before evaluating.')
         result = evaluate(examples,predictions); write_json(output/'metrics.json',result)
+        if (output/'judge_mapping.jsonl').exists() and (output/'judge_scores.jsonl').exists():
+            from .metrics import reply_summary
+            write_json(output/'reply_metrics.json',reply_summary(read_jsonl(output/'judge_mapping.jsonl'),read_jsonl(output/'judge_scores.jsonl'),examples))
         print('Metrics rebuilt; unlabelled examples do not receive correctness scores.'); return 0
     if args.command=='review-packet':
-        path = output/'review_packet.jsonl'
+        path = output/(args.name+'_packet.jsonl')
         if path.exists() and any(r.get('human_rating') for r in read_jsonl(path)):
             raise ValueError('Refusing to overwrite human reply ratings. Choose a new output directory.')
-        packet,mapping=make_review_packet(examples,predictions,corpus,n=args.count)
-        write_jsonl(path,packet); write_jsonl(output/'review_mapping.jsonl',mapping)
+        packet,mapping=make_review_packet(examples,predictions,corpus,n=args.count,pool=args.pool)
+        write_jsonl(path,packet); write_jsonl(output/(args.name+'_mapping.jsonl'),mapping)
         print(f'Created {len(packet)} blinded replies. Keep the mapping hidden during human review.'); return 0
 
 

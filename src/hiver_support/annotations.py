@@ -38,8 +38,8 @@ def acceptable(rating):
             and rating['relevance'] >= 1 and rating['helpfulness'] >= 1 and not rating['critical_failure'])
 
 
-def make_review_packet(examples, predictions, corpus, n=40, seed=73):
-    lookup = {e['id']: e for e in examples if e.get('partition') == 'representative'}
+def make_review_packet(examples, predictions, corpus, n=40, seed=73, pool='representative'):
+    lookup = {e['id']: e for e in examples if pool=='all' or e.get('partition') == 'representative' or (pool=='heldout' and e.get('partition')=='challenge')}
     # Choose inputs before reading scores; include all available systems for each.
     ids = sorted(lookup)
     random.Random(seed).shuffle(ids)

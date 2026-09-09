@@ -78,6 +78,6 @@ def predict(example, system, retriever, provider=None, majority='other_unclear',
         decision = {'decision': 'escalate', 'reason_codes': ['processing_error'], 'reason': 'Processing failed; human review required.'}
     return {'id': example['id'], 'system': system, 'partition': example.get('partition'), 'intent': intent,
         'draft_reply': reply, **decision, 'evidence_ids': used,
-        'retrieved': [{'id': e['id'], 'score': e['score']} for e in evidence], 'support_explanation': explanation,
+        'retrieved': [{'id': e['id'], 'score': e['score']} for e in evidence], 'support_explanation': explanation, 'support_established': support,
         'latency_seconds': round(time.perf_counter()-start, 6), 'provider': {k:v for k,v in meta.items() if k != 'output'},
         'error': error, 'evidence_mode': evidence_mode, 'threshold': threshold, 'prompt_hash': fingerprint(AGENT_PROMPT) if system == 'agent' else None}

@@ -22,6 +22,9 @@ def wilson(successes, total):
 
 def evaluate(examples, predictions):
     lookup = {e['id']: e for e in examples}
+    unknown = {p['id'] for p in predictions} - set(lookup)
+    if unknown:
+        raise ValueError('Predictions contain unknown example IDs')
     results = {}
     for system in sorted({p['system'] for p in predictions}):
         results[system] = {}
@@ -90,4 +93,21 @@ def agreement(packet, judged):
     confusion = Counter((acceptable(h),acceptable(j)) for h,j in pairs)
     output['acceptability_confusion'] = {f'human_{h}_judge_{j}':confusion[h,j] for h in (False,True) for j in (False,True)}
     output['false_approval_rate_among_human_rejected'] = fraction(confusion[False,True], sum(not acceptable(h) for h,j in pairs))
+    return output
+
+
+def reply_summary(mapping, judged, examples):
+    """Judge acceptability by system and partition, including failed grades."""
+    lookup = {e['id']:e for e in examples}
+    scores = {r['blind_id']:r for r in judged}
+    output = {}
+    for system in sorted({r['system'] for r in mapping}):
+        output[system] = {}
+        for partition in ['development','representative','challenge']:
+            selected = [r for r in mapping if r['system']==system and lookup[r['id']]['partition']==partition]
+            valid = [scores[r['blind_id']]['rating'] for r in selected if r['blind_id'] in scores
+                     and not scores[r['blind_id']].get('error') and validate_rating(scores[r['blind_id']]['rating'])]
+            output[system][partition] = {'requested':len(selected),'valid_ratings':len(valid),
+                'missing_or_failed':len(selected)-len(valid),'pass_rate':fraction(sum(acceptable(r) for r in valid),len(valid)),
+                'dimension_means':{d:statistics.mean(r[d] for r in valid) if valid else None for d in DIMENSIONS}}
     return output
