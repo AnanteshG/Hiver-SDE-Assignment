@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hiver-support"
+version = "0.1.0"
+description = "Evidence-first customer support agent and evaluation harness"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+hiver-support = "hiver_support.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
