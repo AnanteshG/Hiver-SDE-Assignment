@@ -6,11 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "hiver-support"
 version = "0.2.0"
 description = "Evidence-first customer support agent and evaluation harness"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = []
 
 [project.optional-dependencies]
 dashboard = ["streamlit==1.49.1"]
+dev = ["ruff==0.12.12"]
 
 [project.scripts]
 hiver-support = "hiver_support.cli:main"

@@ -1,4 +1,5 @@
 """Stream Twitter CSV; reconstruct observed reply paths without future leakage."""
+
 import csv
 import html
 import hashlib
@@ -45,7 +46,10 @@ def prepare(path, brand, output, seed=42, max_corpus=5000):
     brand_rows = {}
     customer_ids = set()
     for row in rows(path):
-        if row["author_id"].lower() == brand.lower() and row["inbound"].lower() == "false":
+        if (
+            row["author_id"].lower() == brand.lower()
+            and row["inbound"].lower() == "false"
+        ):
             brand_rows[row["tweet_id"]] = row
             if row["in_response_to_tweet_id"]:
                 customer_ids.add(row["in_response_to_tweet_id"])
@@ -55,7 +59,10 @@ def prepare(path, brand, output, seed=42, max_corpus=5000):
     for row in rows(path):
         if row["inbound"].lower() == "true":
             # Include inbound replies to brand turns as well as direct requests.
-            if row["tweet_id"] in customer_ids or row["in_response_to_tweet_id"] in brand_rows:
+            if (
+                row["tweet_id"] in customer_ids
+                or row["in_response_to_tweet_id"] in brand_rows
+            ):
                 nodes[row["tweet_id"]] = row
     parents = {key: key for key in nodes}
 
@@ -100,22 +107,52 @@ def prepare(path, brand, output, seed=42, max_corpus=5000):
                 break
             visited.add(parent)
             ancestor = nodes[parent]
-            context.append({"tweet_id": parent, "role": "customer" if ancestor["inbound"].lower() == "true" else "brand", "text": sanitize(ancestor["text"])})
+            context.append(
+                {
+                    "tweet_id": parent,
+                    "role": "customer"
+                    if ancestor["inbound"].lower() == "true"
+                    else "brand",
+                    "text": sanitize(ancestor["text"]),
+                }
+            )
             parent = ancestor["in_response_to_tweet_id"]
         missing_parent += incomplete
-        response = min(replies[key], key=lambda r: (parsedate_to_datetime(r["created_at"]), r["tweet_id"]))
-        examples.append({
-            "id": "tw_" + key, "tweet_id": key, "group_id": root(key), "brand": brand,
-            "text": sanitize(row["text"]), "context": list(reversed(context[:8])),
-            "context_incomplete": incomplete, "created_at": row["created_at"],
-            "historical_reply": sanitize(response["text"]), "reply_id": response["tweet_id"],
-            "evidence_type": "observed_response", "source": "thoughtvector/customer-support-on-twitter",
-        })
+        response = min(
+            replies[key],
+            key=lambda r: (parsedate_to_datetime(r["created_at"]), r["tweet_id"]),
+        )
+        examples.append(
+            {
+                "id": "tw_" + key,
+                "tweet_id": key,
+                "group_id": root(key),
+                "brand": brand,
+                "text": sanitize(row["text"]),
+                "context": list(reversed(context[:8])),
+                "context_incomplete": incomplete,
+                "created_at": row["created_at"],
+                "historical_reply": sanitize(response["text"]),
+                "reply_id": response["tweet_id"],
+                "evidence_type": "observed_response",
+                "source": "thoughtvector/customer-support-on-twitter",
+            }
+        )
     # Stable group-level assignment, independent of CSV ordering.
     pools = defaultdict(list)
     for example in examples:
-        bucket = int(hashlib.sha256(f"{seed}:{example['group_id']}".encode()).hexdigest()[:8], 16) % 100
-        pools["retrieval" if bucket < 70 else "development" if bucket < 80 else "test"].append(example)
+        bucket = (
+            int(
+                hashlib.sha256(f"{seed}:{example['group_id']}".encode()).hexdigest()[
+                    :8
+                ],
+                16,
+            )
+            % 100
+        )
+        pools[
+            "retrieval" if bucket < 70 else "development" if bucket < 80 else "test"
+        ].append(example)
     rng = random.Random(seed)
     for pool in pools.values():
         rng.shuffle(pool)
@@ -134,24 +171,49 @@ def prepare(path, brand, output, seed=42, max_corpus=5000):
     representative = test_pool[:120]
     remainder = test_pool[120:]
     # Heuristic challenge selection is disclosed, not a human risk label.
-    challenge = sorted(remainder, key=lambda e: (
-        -(3 * e["context_incomplete"] + (len(e["text"].split()) < 7) + bool(re.search(r"refund|charge|password|hacked|again|still|not", e["text"], re.I))), e["id"]
-    ))[:30]
+    challenge = sorted(
+        remainder,
+        key=lambda e: (
+            -(
+                3 * e["context_incomplete"]
+                + (len(e["text"].split()) < 7)
+                + bool(
+                    re.search(
+                        r"refund|charge|password|hacked|again|still|not",
+                        e["text"],
+                        re.I,
+                    )
+                )
+            ),
+            e["id"],
+        ),
+    )[:30]
     corpus = pools["retrieval"][:max_corpus]
     candidates = []
-    for partition, selected in [("development", development), ("representative", representative), ("challenge", challenge)]:
+    for partition, selected in [
+        ("development", development),
+        ("representative", representative),
+        ("challenge", challenge),
+    ]:
         for example in selected:
             candidates.append({**example, "partition": partition, "annotation": None})
     if len(candidates) < 200:
-        raise ValueError("Not enough independent conversation groups for 200 examples; choose a larger brand.")
+        raise ValueError(
+            "Not enough independent conversation groups for 200 examples; choose a larger brand."
+        )
     output = Path(output)
     write_jsonl(output / "corpus.jsonl", corpus)
     write_jsonl(output / "candidates.jsonl", candidates)
     report = {
-        "brand": brand, "seed": seed, "brand_tweets": len(brand_rows), "usable_customer_turns": len(examples),
-        "incomplete_context_examples": missing_parent, "corpus_size": len(corpus),
+        "brand": brand,
+        "seed": seed,
+        "brand_tweets": len(brand_rows),
+        "usable_customer_turns": len(examples),
+        "incomplete_context_examples": missing_parent,
+        "corpus_size": len(corpus),
         "partitions": dict(Counter(e["partition"] for e in candidates)),
-        "corpus_hash": fingerprint(corpus), "candidates_hash": fingerprint(candidates),
+        "corpus_hash": fingerprint(corpus),
+        "candidates_hash": fingerprint(candidates),
         "deduplication": "normalized exact text; semantic paraphrases may remain",
         "scope": "linked brand/customer paths only; no language filtering, English eligibility requires human review",
         "challenge_sampling": "ranked for missing context, short messages, and risk/ambiguity keywords",
@@ -171,7 +233,11 @@ def validate_splits(corpus, candidates):
         if example["id"] in ids:
             errors.append(f"duplicate candidate ID: {example['id']}")
         ids.add(example["id"])
-        if example["group_id"] in corp_groups or example["id"] in corp_ids or normalized(example["text"]) in corp_text:
+        if (
+            example["group_id"] in corp_groups
+            or example["id"] in corp_ids
+            or normalized(example["text"]) in corp_text
+        ):
             errors.append(f"retrieval leakage: {example['id']}")
         previous = partitions.setdefault(example["group_id"], example["partition"])
         if previous != example["partition"]:

@@ -1,4 +1,5 @@
 """Small, deterministic artifact helpers."""
+
 import hashlib
 import json
 import os
@@ -14,21 +15,28 @@ def read_jsonl(path):
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + '.' + uuid.uuid4().hex + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    temporary = path.with_suffix(path.suffix + "." + uuid.uuid4().hex + ".tmp")
+    temporary.write_text(
+        json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     temporary.replace(path)
 
 
 def write_jsonl(path, rows):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + '.' + uuid.uuid4().hex + ".tmp")
-    temporary.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
+    temporary = path.with_suffix(path.suffix + "." + uuid.uuid4().hex + ".tmp")
+    temporary.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
     temporary.replace(path)
 
 
 def fingerprint(value):
-    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, ensure_ascii=False).encode()
+    ).hexdigest()
 
 
 def load_env(path=".env"):
