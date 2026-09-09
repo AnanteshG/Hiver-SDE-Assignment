@@ -1,0 +1,32 @@
+{
+  "normal": {
+    "trivial": {
+      "count": 50,
+      "auto_count": 0
+    },
+    "simple": {
+      "count": 50,
+      "auto_count": 4
+    }
+  },
+  "removed": {
+    "trivial": {
+      "count": 50,
+      "auto_count": 0
+    },
+    "simple": {
+      "count": 50,
+      "auto_count": 0
+    }
+  },
+  "irrelevant": {
+    "trivial": {
+      "count": 50,
+      "auto_count": 0
+    },
+    "simple": {
+      "count": 50,
+      "auto_count": 0
+    }
+  }
+}

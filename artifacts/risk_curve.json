@@ -1,0 +1,290 @@
+[
+  {
+    "threshold": 0.0,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 5,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.0,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.2,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 5,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.2,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.3,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 4,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.3,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.4,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 1,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.4,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.5,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 1,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.5,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.6,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.6,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.8,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 0.8,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 1.0,
+    "system": "simple",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  },
+  {
+    "threshold": 1.0,
+    "system": "trivial",
+    "status": "pending_human_labels",
+    "coverage": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_rate": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    },
+    "unsafe_auto_wilson_95": null,
+    "observed_auto_count": 0,
+    "note": "Fixed drafts; sweep changes only the evidence-similarity gate. Choose on development data only."
+  }
+]

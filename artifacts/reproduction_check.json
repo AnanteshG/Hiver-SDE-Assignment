@@ -1,0 +1,8 @@
+{
+  "mode": "cached metrics only",
+  "python": "3.12.14",
+  "seconds": 1.784,
+  "fresh_environment": true,
+  "live_inference": false,
+  "human_labels_complete": false
+}

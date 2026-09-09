@@ -1,0 +1,498 @@
+{
+  "simple": {
+    "development": {
+      "status": "pending_human_labels",
+      "expected_examples": 50,
+      "predictions": 50,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 50,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 4,
+      "latency_p50_seconds": 0.0048955,
+      "latency_p95_seconds": 0.085303,
+      "total_tokens": 0,
+      "cost_usd": null
+    },
+    "representative": {
+      "status": "pending_human_labels",
+      "expected_examples": 120,
+      "predictions": 120,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 120,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 7,
+      "latency_p50_seconds": 0.0040295,
+      "latency_p95_seconds": 0.053605,
+      "total_tokens": 0,
+      "cost_usd": null
+    },
+    "challenge": {
+      "status": "pending_human_labels",
+      "expected_examples": 30,
+      "predictions": 30,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 0,
+      "latency_p50_seconds": 0.0015084999999999999,
+      "latency_p95_seconds": 0.034172,
+      "total_tokens": 0,
+      "cost_usd": null
+    }
+  },
+  "trivial": {
+    "development": {
+      "status": "pending_human_labels",
+      "expected_examples": 50,
+      "predictions": 50,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 50,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 0,
+      "latency_p50_seconds": 0.005048,
+      "latency_p95_seconds": 0.082392,
+      "total_tokens": 0,
+      "cost_usd": null
+    },
+    "representative": {
+      "status": "pending_human_labels",
+      "expected_examples": 120,
+      "predictions": 120,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 120,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 0,
+      "latency_p50_seconds": 0.004392500000000001,
+      "latency_p95_seconds": 0.085003,
+      "total_tokens": 0,
+      "cost_usd": null
+    },
+    "challenge": {
+      "status": "pending_human_labels",
+      "expected_examples": 30,
+      "predictions": 30,
+      "labelled_evaluated": 0,
+      "missing_predictions": 0,
+      "intent_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "intent_macro_f1": null,
+      "per_intent": {
+        "account_access": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "billing_purchase": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "battery_power": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "connectivity": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "software_update": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "hardware_repair": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "app_service": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        },
+        "other_unclear": {
+          "support": 0,
+          "predicted": 0,
+          "f1": 0
+        }
+      },
+      "confusion": [],
+      "auto_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "unsafe_auto_wilson_95": null,
+      "escalation_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "processing_error_rate": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "unlabelled_auto_count": 0,
+      "latency_p50_seconds": 0.00116,
+      "latency_p95_seconds": 0.03496,
+      "total_tokens": 0,
+      "cost_usd": null
+    }
+  }
+}

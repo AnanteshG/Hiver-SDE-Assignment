@@ -1,0 +1,18 @@
+{
+  "brand": "AppleSupport",
+  "seed": 42,
+  "brand_tweets": 106860,
+  "usable_customer_turns": 106625,
+  "incomplete_context_examples": 8162,
+  "corpus_size": 5000,
+  "partitions": {
+    "development": 50,
+    "representative": 120,
+    "challenge": 30
+  },
+  "corpus_hash": "d41937f2bf7e045e31638babd1cc439d77ce3fb030ce6108622eb2ba8e2e8bb5",
+  "candidates_hash": "7bb1af0b5a0499795e366544fb97384b3ef1041a9958a73096d2a70e30aa05f7",
+  "deduplication": "normalized exact text; semantic paraphrases may remain",
+  "scope": "linked brand/customer paths only; no language filtering, English eligibility requires human review",
+  "challenge_sampling": "ranked for missing context, short messages, and risk/ambiguity keywords"
+}

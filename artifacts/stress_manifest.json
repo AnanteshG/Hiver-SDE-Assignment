@@ -1,0 +1,22 @@
+{
+  "corpus_hash": "d41937f2bf7e045e31638babd1cc439d77ce3fb030ce6108622eb2ba8e2e8bb5",
+  "examples_hash": "7bb1af0b5a0499795e366544fb97384b3ef1041a9958a73096d2a70e30aa05f7",
+  "input_hash": "6a540b4c8c3f0b93e926270e958d09e3d866732993d18ab403c517d90c0d0a09",
+  "systems": [
+    "trivial",
+    "simple"
+  ],
+  "threshold": 0.3,
+  "partition": "development",
+  "modes": [
+    "normal",
+    "removed",
+    "irrelevant"
+  ],
+  "wall_seconds": 1.4480266000027768,
+  "majority_intent": "other_unclear",
+  "majority_from_human_development": false,
+  "predictions_hash": "74ae5732a40ec9b52d345806d3664d216f7094aa43a0c1aea62116c7d382d94b",
+  "model": null,
+  "errors": 0
+}
