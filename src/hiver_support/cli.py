@@ -18,7 +18,10 @@ def main():
     p = commands.add_parser('prepare', help='Rebuild real-data retrieval corpus and annotation candidates')
     p.add_argument('csv'); p.add_argument('--brand',default='AppleSupport'); p.add_argument('--output',default='data/processed')
     p.add_argument('--seed',type=int,default=42); p.add_argument('--max-corpus',type=int,default=5000)
-    for name in ['validate','run','evaluate','review-packet','stress','readiness']:
+    p = commands.add_parser('respond',help='Draft the next response for a new message')
+    p.add_argument('text'); p.add_argument('--system',choices=['simple','agent'],default='simple')
+    p.add_argument('--data',default='data/processed')
+    for name in ['validate','run','evaluate','review-packet','stress','readiness','sweep']:
         p = commands.add_parser(name)
         p.add_argument('--data',default='data/processed')
         p.add_argument('--output',default='artifacts')
@@ -69,6 +72,16 @@ def execute(args):
     if args.command == 'agreement':
         result = agreement(read_jsonl(args.packet),read_jsonl(args.judge))
         write_json(args.output,result); print(json.dumps(result,indent=2)); return 0
+    if args.command=='respond':
+        from .agent import predict
+        from .provider import Provider
+        from .retrieval import Retriever
+        from .data import sanitize
+        text=sanitize(args.text)
+        if not text.strip(): raise ValueError('Message cannot be empty')
+        example=dict(id='interactive',text=text,context=[],context_incomplete=False)
+        result=predict(example,args.system,Retriever(read_jsonl(Path(args.data)/'corpus.jsonl')),Provider() if args.system=='agent' else None)
+        print(json.dumps(result,indent=2,ensure_ascii=True)); return int(bool(result['error']))
     data, output = Path(args.data), Path(args.output)
     if args.command=='readiness':
         from .readiness import status
@@ -120,6 +133,10 @@ def execute(args):
         print(json.dumps(manifest,indent=2))
         return int(manifest['errors']>0)
     predictions = read_jsonl(output/'predictions.jsonl')
+    if args.command=='sweep':
+        from .experiments import risk_curve
+        write_json(output/'risk_curve.json',risk_curve(examples,predictions))
+        print('Development-only coverage/risk sweep saved. No correctness claim without human labels.'); return 0
     if args.command=='evaluate':
         manifest_path=output/'predictions_manifest.json'
         if manifest_path.exists():

@@ -18,7 +18,7 @@ div[data-testid="stSidebar"] {background:#eaf0f7;}
 </style>''',unsafe_allow_html=True)
 st.title('Trust Review')
 st.caption('APPLE SUPPORT · Evidence-first replies · Inspect the proof behind each decision')
-page = st.sidebar.radio('Workspace',['Overview','Case inspector','Label customer messages','Review replies','Judge audit','Evidence stress test'])
+page = st.sidebar.radio('Workspace',['Overview','Try a message','Case inspector','Label customer messages','Review replies','Judge audit','Evidence stress test'])
 st.sidebar.caption('Historical Twitter data. This prototype does not access accounts or send messages.')
 
 
@@ -51,8 +51,34 @@ if page=='Overview':
             table.append({'System':system,'Status':m['status'],'Scored examples':m['labelled_evaluated'],
                 'Intent macro-F1':m['intent_macro_f1'],'Auto coverage':m['auto_coverage']['value'],
                 'Unsafe auto rate':m['unsafe_auto_rate']['value'],'Escalation recall':m['escalation_recall']['value']})
-        st.dataframe(table,use_container_width=True,hide_index=True)
+        st.dataframe(table,width='stretch',hide_index=True)
     st.info('Start with Case inspector to examine actual outputs. Use Label customer messages to build the golden set yourself.')
+
+elif page=='Try a message':
+    st.subheader('Inspect a new support request')
+    st.caption('The retrieval baseline runs locally. The live agent requires the model settings in your .env file.')
+    message=st.text_area('Customer message',placeholder='My phone battery drains quickly after an update.')
+    system=st.selectbox('Response system',['simple','agent'],format_func=lambda x:'Retrieval baseline · local' if x=='simple' else 'Grounded agent · live model')
+    if st.button('Draft response',type='primary'):
+        if not message.strip(): st.error('Enter a message first.')
+        else:
+            from hiver_support.agent import predict
+            from hiver_support.provider import Provider
+            from hiver_support.retrieval import Retriever
+            from hiver_support.data import sanitize
+            from hiver_support.io import load_env
+            load_env(ROOT/'.env')
+            try:
+                with st.spinner('Retrieving evidence and drafting...'):
+                    result=predict(dict(id='interactive',text=sanitize(message),context=[],context_incomplete=False),system,Retriever(corpus),Provider() if system=='agent' else None)
+                st.write(result['draft_reply']); st.info(result['reason'])
+                st.write('**Intent:**',result['intent']); st.write('**Handling:**',result['decision'])
+                lookup={e['id']:e for e in corpus}
+                for match in result['retrieved']:
+                    with st.expander(f"Evidence {match['id']} · {match['score']:.3f}"):
+                        st.write(lookup[match['id']]['text']); st.caption(lookup[match['id']]['historical_reply'])
+                if result['error']: st.error(result['error'])
+            except ValueError as exc: st.error(str(exc))
 
 elif page=='Case inspector':
     if not predictions:
@@ -180,3 +206,9 @@ elif page=='Evidence stress test':
         summary=json.loads(path.read_text())
         st.dataframe([{'Evidence':mode,'System':system,**counts} for mode,systems in summary.items() for system,counts in systems.items()],hide_index=True)
         st.caption('Automation counts alone do not establish reply safety. Review generated replies for unsupported claims.')
+    curve=ARTIFACTS/'risk_curve.json'
+    if curve.exists():
+        st.subheader('Development threshold sweep')
+        rows=json.loads(curve.read_text())
+        st.dataframe([{'System':r['system'],'Threshold':r['threshold'],'Observed auto count':r['observed_auto_count'],
+                       'Scored coverage':r['coverage']['value'],'Unsafe rate':r['unsafe_auto_rate']['value']} for r in rows],hide_index=True)
