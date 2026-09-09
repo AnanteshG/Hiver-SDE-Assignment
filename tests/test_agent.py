@@ -1,6 +1,6 @@
 import unittest
 from hiver_support.agent import predict
-from hiver_support.policy import gates
+from hiver_support.policy import gates, classify
 from hiver_support.retrieval import Retriever
 
 
@@ -35,3 +35,18 @@ class AgentTests(unittest.TestCase):
     def test_missing_evidence_abstains(self):
         result = predict(self.example, 'simple', self.retriever, evidence_mode='removed')
         self.assertEqual(result['decision'], 'escalate')
+
+    def test_substrings_do_not_create_app_intent(self):
+        self.assertEqual(classify('What happened at the Apple store?'),'other_unclear')
+
+    def test_historical_version_not_auto_sent(self):
+        result=gates(self.example,'software_update',[{**self.case,'score':1}], 'Update to iOS 11.0.2.',True)
+        self.assertIn('time_sensitive_advice',result['reason_codes'])
+
+    def test_prohibited_model_action_is_replaced(self):
+        class Fake:
+            def complete(self,prompt,payload):
+                return {'output':dict(intent='battery_power',draft_reply='We have refunded your purchase.', evidence_ids=['one'], support_established=True)}
+        result=predict(self.example,'agent',self.retriever,Fake())
+        self.assertEqual(result['decision'],'escalate')
+        self.assertNotIn('refunded',result['draft_reply'])

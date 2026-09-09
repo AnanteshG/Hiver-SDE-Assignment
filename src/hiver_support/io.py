@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import uuid
 from pathlib import Path
 
 
@@ -13,7 +14,7 @@ def read_jsonl(path):
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary = path.with_suffix(path.suffix + '.' + uuid.uuid4().hex + ".tmp")
     temporary.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     temporary.replace(path)
 
@@ -21,7 +22,7 @@ def write_json(path, value):
 def write_jsonl(path, rows):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary = path.with_suffix(path.suffix + '.' + uuid.uuid4().hex + ".tmp")
     temporary.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
     temporary.replace(path)
 
