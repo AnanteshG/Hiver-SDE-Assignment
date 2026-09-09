@@ -6,6 +6,9 @@ class DataTests(unittest.TestCase):
     def test_sanitize_preserves_negation(self):
         self.assertEqual(sanitize('@Bob I cannot log in! https://x.com'), '@user I cannot log in! [link]')
 
+    def test_email_and_html_are_normalized(self):
+        self.assertEqual(sanitize('me@example.com &gt; @support'), '[email] > @user')
+
     def test_overlap_and_future_detected(self):
         example = dict(id='a', group_id='g', text='broken phone', partition='representative', tweet_id='1', reply_id='2', context=[{'tweet_id': '2'}])
         self.assertEqual(len(validate_splits([example], [example])), 2)

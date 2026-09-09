@@ -1,18 +1,21 @@
 """Stream Twitter CSV; reconstruct observed reply paths without future leakage."""
 import csv
+import html
 import hashlib
 import random
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
+from email.utils import parsedate_to_datetime
 
 from .io import fingerprint, write_json, write_jsonl
 
 
 def sanitize(text):
+    text = html.unescape(text)
     text = re.sub(r"https?://\S+", "[link]", text)
-    text = re.sub(r"@[\w]+", "@user", text)
     text = re.sub(r"\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b", "[email]", text)
+    text = re.sub(r"@[\w]+", "@user", text)
     text = re.sub(r"(?<!\w)(?:\+?\d[\d ()-]{7,}\d)(?!\w)", "[number]", text)
     return " ".join(text.split())
 
@@ -100,10 +103,10 @@ def prepare(path, brand, output, seed=42, max_corpus=5000):
             context.append({"tweet_id": parent, "role": "customer" if ancestor["inbound"].lower() == "true" else "brand", "text": sanitize(ancestor["text"])})
             parent = ancestor["in_response_to_tweet_id"]
         missing_parent += incomplete
-        response = min(replies[key], key=lambda r: (r["created_at"], r["tweet_id"]))
+        response = min(replies[key], key=lambda r: (parsedate_to_datetime(r["created_at"]), r["tweet_id"]))
         examples.append({
             "id": "tw_" + key, "tweet_id": key, "group_id": root(key), "brand": brand,
-            "text": sanitize(row["text"]), "context": list(reversed(context[-8:])),
+            "text": sanitize(row["text"]), "context": list(reversed(context[:8])),
             "context_incomplete": incomplete, "created_at": row["created_at"],
             "historical_reply": sanitize(response["text"]), "reply_id": response["tweet_id"],
             "evidence_type": "observed_response", "source": "thoughtvector/customer-support-on-twitter",
