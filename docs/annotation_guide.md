@@ -51,3 +51,12 @@ policy" when appropriate rather than leaving the field blank.
 The application requires a reviewer ID and personal-review confirmation. These are
 provenance records, not a technical guarantee that the review occurred. Do not
 claim AI-generated labels as human labels.
+
+## Optional development hints
+
+The dashboard offers explicitly AI-authored suggestions for the 50 development
+examples. They are separate from the golden data and never populate or save labels.
+Development outputs had already been inspected when preparing these hints; they are
+not blinded annotations. Decide your own labels and disclose this assistance in the
+sampling note if used. Representative/challenge examples and human reply ratings
+remain independent. No suggestion counts towards the human annotation requirement.

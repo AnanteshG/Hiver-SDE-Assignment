@@ -220,6 +220,28 @@ elif page == "Label customer messages":
     st.write(example["text"])
     if example["context_incomplete"]:
         st.warning("Some prior context is missing.")
+    if partition == "development":
+        suggestions = read_optional(
+            ROOT / "data" / "assistance" / "development_suggestions.jsonl"
+        )
+        suggestion = next((row for row in suggestions if row["id"] == selected), None)
+        if suggestion:
+            with st.expander("AI development hint — decide your own label"):
+                st.warning(suggestion["warning"])
+                st.write("**Suggested intent:**", suggestion["suggested_intent"])
+                st.write("**English eligibility:**", suggestion["suggested_eligible"])
+                st.write(
+                    "**Human review suggested:**",
+                    suggestion["suggested_human_required"],
+                )
+                st.write(suggestion["rationale"])
+                st.write(
+                    "**An acceptable response should:**",
+                    suggestion["response_requirements"],
+                )
+                st.caption(
+                    "These hints never fill or save the annotation form. Held-out examples have no hints."
+                )
     existing = example.get("annotation") or {}
     with st.form("annotation_" + selected):
         eligible = st.checkbox(
