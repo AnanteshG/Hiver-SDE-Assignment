@@ -15,10 +15,10 @@ st.set_page_config(
 )
 st.markdown(
     """<style>
-.stApp { background: #f5f7fb; }
-h1,h2,h3 { color: #132b45; }
-div[data-testid="stMetric"] {background:white;border:1px solid #dce4ee;border-radius:12px;padding:18px;}
-div[data-testid="stSidebar"] {background:#eaf0f7;}
+
+
+div[data-testid="stMetric"] {border:1px solid #94a3b8;border-radius:12px;padding:18px;}
+
 </style>""",
     unsafe_allow_html=True,
 )
